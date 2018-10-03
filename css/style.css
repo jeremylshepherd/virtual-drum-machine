@@ -1,0 +1,135 @@
+@import url("https://fonts.googleapis.com/css?family=Press+Start+2P|Audiowide");
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: radial-gradient(slategray, lightslategray, #d9d9d9, white, #d9d9d9, lightslategray, slategray);
+  background-size: auto;
+}
+
+#drum-machine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  background-color: #12313b;
+  max-width: 80vw;
+  max-height: 80vh;
+}
+#drum-machine #machine-head,
+#drum-machine #machine-body {
+  display: flex;
+  align-items: center;
+}
+#drum-machine #machine-head {
+  justify-content: space-around;
+  width: 100%;
+  color: white;
+  margin-bottom: 5px;
+}
+#drum-machine #machine-head h1 {
+  font-size: 5.8vmin;
+  font-family: "Audiowide", cursive;
+  letter-spacing: 0.2vmin;
+  font-style: italic;
+}
+#drum-machine #machine-head .fab {
+  font-size: 5vmin;
+}
+#drum-machine #panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  width: 25vw;
+  max-width: 30vmin;
+  height: calc((15vw*3) + 8px);
+  max-height: calc((20vmin*3) + 8px);
+  margin-left: 4px;
+  border-radius: 5px;
+  border: 1px solid #0c2027;
+  position: relative;
+}
+#drum-machine #panel #display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #2a7189;
+  height: 15vw;
+  max-height: 20vmin;
+  width: 95%;
+  box-shadow: inset 1px 1px 8px black;
+}
+#drum-machine #panel #display h1 {
+  text-align: center;
+  color: white;
+  line-height: 1.8;
+  font-size: 2.5vmin;
+  font-family: "Press Start 2P", cursive;
+}
+#drum-machine #panel::before {
+  content: "";
+  position: absolute;
+  background: none;
+  border: 1px solid #c4e3ed;
+  border-radius: 5px;
+  position: absolute;
+  width: 99.9%;
+  height: 99.9%;
+  left: 5;
+  z-index: 20;
+}
+#drum-machine #panel::after {
+  content: "";
+  position: absolute;
+  background: none;
+  border: 1px solid #061014;
+  border-radius: 5px;
+  position: absolute;
+  width: 99.9%;
+  height: 99.9%;
+  left: 5;
+  z-index: 20;
+}
+#drum-machine #pad-container {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 4px;
+}
+#drum-machine #pad-container .drum-pad {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 15vw;
+  height: 15vw;
+  max-width: 20vmin;
+  max-height: 20vmin;
+  background-color: lightblue;
+  text-align: center;
+  color: #eee;
+  font-weight: bold;
+  font-size: 12vmin;
+  border-radius: 5px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  transition: background-color 250ms, color 250ms, text-shadow 250ms;
+}
+#drum-machine #pad-container .drum-pad:active {
+  background-color: #30839c;
+  color: white;
+  text-shadow: 0 0 10px white, 3px 3px 0px black;
+}

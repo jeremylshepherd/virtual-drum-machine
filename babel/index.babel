@@ -1,0 +1,171 @@
+let $ = q => document.querySelector(q);
+let app = $("#app");
+let data = [
+  {
+    letter: "Q",
+    instrument: "Snare",
+    id: "Snare",
+    src: "public/assets/lg_snare.wav"
+  },
+  {
+    letter: "W",
+    instrument: "Kick",
+    id: "Kick",
+    src: "public/assets/Free%20Kick%20Sample%208-900-Free-Loops.com.mp3"
+  },
+  {
+    letter: "E",
+    instrument: "High Hat",
+    id: "High Hat",
+    src: "public/assets/sweethat.wav"
+  },
+  {
+    letter: "A",
+    instrument: "Tom Tom",
+    id: "Tom Tom",
+    src: "public/assets/22-14dbl%20head%20tom.wav"
+  },
+  {
+    letter: "S",
+    instrument: "Cymbal",
+    id: "Cymbal",
+    src: "public/assets/sci_ride.wav"
+  },
+  {
+    letter: "D",
+    instrument: "(more) Cowbell",
+    id: "more_Cowbell",
+    src: "public/assets/Cowbell.wav"
+  },
+  {
+    letter: "Z",
+    instrument: "Guitar (G_chord)",
+    id: "Guitar_G_chord)",
+    src: "public/assets/guitar-chord-G.wav"
+  },
+  {
+    letter: "X",
+    instrument: "Guitar (C_chord)",
+    id: "Guitar_C_chord)",
+    src: "public/assets/guitar-chord-C.wav"
+  },
+  {
+    letter: "C",
+    instrument: "Guitar (D_chord)",
+    id: "Guitar_G_chord)",
+    src: "public/assets/guitar-chord-D.wav"
+  }
+];
+
+const mediaPromise = media => {
+  if (media !== undefined) {
+    media.then(_ => {}).catch(error => console.log(error));
+  }
+};
+
+class Drum extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    let audio = this.refs.audio;
+    mediaPromise(audio.play());
+    this.props.display(this.refs.drumPad.getAttribute("data-instrument"));
+  }
+
+  render() {
+    return (
+      <div
+        ref="drumPad"
+        className="drum-pad"
+        data-instrument={this.props.instrument}
+        id={this.props.instrument}
+        onClick={this.handleClick}
+      >
+        {this.props.letter}
+        <audio
+          preload="true"
+          ref="audio"
+          src={this.props.src}
+          className="clip"
+          id={this.props.letter}
+        />
+      </div>
+    );
+  }
+}
+
+const Panel = props => {
+  return (
+    <div id="panel">
+      <div id="display">
+        <h1>{props.instrument}</h1>
+      </div>
+    </div>
+  );
+};
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      instrument: "",
+      letter: null
+    };
+
+    this.updateDisplay = this.updateDisplay.bind(this);
+    this.pressPlay = this.pressPlay.bind(this);
+  }
+
+  updateDisplay(instrument) {
+    this.setState({
+      instrument: instrument
+    });
+  }
+  
+  pressPlay(e) {
+    let letters = this.props.data.map(d => d.letter);
+      let key = e.key.toUpperCase();
+      if (letters.indexOf(key) !== -1) {
+        mediaPromise($(`#${key}`).play());
+        this.updateDisplay(
+          $(`#${key}`).parentElement.getAttribute("data-instrument")
+        );
+      }
+  }
+
+  componentDidMount() {
+    document.addEventListener("keydown", e => this.pressPlay(e));
+  }
+
+  render() {
+    let drums = this.props.data.map(d => (
+      <Drum
+        ref="drum"
+        key={d.instrument}
+        {...d}
+        display={this.updateDisplay}
+        play={this.state.letter}
+        onKeyDown={this.keyPlay}
+      />
+    ));
+    return (
+      <div id="drum-machine" ref="app" onKeyPress={this.pressPlay}>
+        <div id="machine-head">
+          <h1>Virtual Drum Machine</h1>
+          <i className="fab fa-free-code-camp"></i>
+        </div>
+        <div id="machine-body">
+          <div id="pad-container">{drums}</div>
+          <Panel instrument={this.state.instrument} />
+        </div>
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<App data={data} />, app);
