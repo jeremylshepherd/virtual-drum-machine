@@ -132,14 +132,29 @@ class App extends React.Component {
       let key = e.key.toUpperCase();
       if (letters.indexOf(key) !== -1) {
         mediaPromise($(`#${key}`).play());
+        $(`#${key}`).parentElement.setAttribute('class', 'drum-pad activated');
         this.updateDisplay(
           $(`#${key}`).parentElement.getAttribute("data-instrument")
         );
       }
   }
+  
+  depressPlay(e) {
+    let letters = this.props.data.map(d => d.letter);
+    let key = e.key.toUpperCase();
+    if (letters.indexOf(key) !== -1) {
+      $(`#${key}`).parentElement.setAttribute('class', 'drum-pad');
+    }
+  }
 
   componentDidMount() {
     document.addEventListener("keydown", e => this.pressPlay(e));
+    document.addEventListener("keyup", e => this.depressPlay(e));
+  }
+  
+  componentWillUnmount() {
+    document.addEventListener("keydown");
+    document.addEventListener("keyup");
   }
 
   render() {

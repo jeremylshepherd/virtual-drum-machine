@@ -5,55 +5,57 @@ var data = [
   letter: "Q",
   instrument: "Snare",
   id: "Snare",
-  src: "public/assets/lg_snare.wav" },
+  src: "http://bigsamples.free.fr/d_kit/snare/lg_snare.wav" },
 
 {
   letter: "W",
   instrument: "Kick",
   id: "Kick",
-  src: "public/assets/Free%20Kick%20Sample%208-900-Free-Loops.com.mp3" },
+  src: "http://dight310.byu.edu/media/audio/FreeLoops.com/3/3/Free%20Kick%20Sample%208-900-Free-Loops.com.mp3" },
 
 {
   letter: "E",
   instrument: "High Hat",
   id: "High Hat",
-  src: "public/assets/sweethat.wav" },
+  src: "http://www.denhaku.com/r_box/sr16/sr16hat/sweethat.wav" },
 
 {
   letter: "A",
   instrument: "Tom Tom",
   id: "Tom Tom",
-  src: "public/assets/22-14dbl%20head%20tom.wav" },
+  src:
+  "http://www.burnkit2600.com/temp/HR-16/HR-16-WAVs/22-14dbl%20head%20tom.wav" },
 
 {
   letter: "S",
   instrument: "Cymbal",
   id: "Cymbal",
-  src: "public/assets/sci_ride.wav" },
+  src: "http://www.electrongate.com/dmxfiles/drumtraks/sci_ride.wav" },
 
 {
   letter: "D",
   instrument: "(more) Cowbell",
   id: "more_Cowbell",
-  src: "public/assets/Cowbell.wav" },
+  src:
+  "https://www.autistici.org/2000-maniax/samples/Emu%20Drumulator/Cowbell.wav" },
 
 {
   letter: "Z",
   instrument: "Guitar (G_chord)",
   id: "Guitar_G_chord)",
-  src: "public/assets/guitar-chord-G.wav" },
+  src: "http://scruss.com/wordpress/wp-content/uploads/2017/12/chord-G.wav" },
 
 {
   letter: "X",
   instrument: "Guitar (C_chord)",
   id: "Guitar_C_chord)",
-  src: "public/assets/guitar-chord-C.wav" },
+  src: "http://scruss.com/wordpress/wp-content/uploads/2017/12/chord-C.wav" },
 
 {
   letter: "C",
   instrument: "Guitar (D_chord)",
   id: "Guitar_G_chord)",
-  src: "public/assets/guitar-chord-D.wav" }];
+  src: "http://scruss.com/wordpress/wp-content/uploads/2017/12/chord-D.wav" }];
 
 
 
@@ -118,7 +120,8 @@ App = function (_React$Component2) {_inherits(App, _React$Component2);
 
 
     _this2.updateDisplay = _this2.updateDisplay.bind(_this2);
-    _this2.pressPlay = _this2.pressPlay.bind(_this2);return _this2;
+    _this2.pressPlay = _this2.pressPlay.bind(_this2);
+    _this2.depressPlay = _this2.depressPlay.bind(_this2);return _this2;
   }_createClass(App, [{ key: "updateDisplay", value: function updateDisplay(
 
     instrument) {
@@ -132,14 +135,29 @@ App = function (_React$Component2) {_inherits(App, _React$Component2);
       var key = e.key.toUpperCase();
       if (letters.indexOf(key) !== -1) {
         mediaPromise($("#" + key).play());
+        $("#" + key).parentElement.setAttribute('class', 'drum-pad activated');
         this.updateDisplay(
         $("#" + key).parentElement.getAttribute("data-instrument"));
 
+      }
+    } }, { key: "depressPlay", value: function depressPlay(
+
+    e) {
+      var letters = this.props.data.map(function (d) {return d.letter;});
+      var key = e.key.toUpperCase();
+      if (letters.indexOf(key) !== -1) {
+        $("#" + key).parentElement.setAttribute('class', 'drum-pad');
       }
     } }, { key: "componentDidMount", value: function componentDidMount()
 
     {var _this3 = this;
       document.addEventListener("keydown", function (e) {return _this3.pressPlay(e);});
+      document.addEventListener("keyup", function (e) {return _this3.depressPlay(e);});
+    } }, { key: "componentWillUnmount", value: function componentWillUnmount()
+
+    {
+      document.addEventListener("keydown");
+      document.addEventListener("keyup");
     } }, { key: "render", value: function render()
 
     {var _this4 = this;
@@ -154,7 +172,7 @@ App = function (_React$Component2) {_inherits(App, _React$Component2);
 
 
       return (
-        React.createElement("div", { id: "drum-machine", ref: "app", onKeyPress: this.pressPlay },
+        React.createElement("div", { id: "drum-machine", ref: "app" },
           React.createElement("div", { id: "machine-head" },
             React.createElement("h1", null, "Virtual Drum Machine"),
             React.createElement("i", { className: "fab fa-free-code-camp" })),

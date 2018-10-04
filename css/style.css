@@ -133,3 +133,9 @@ body {
   color: white;
   text-shadow: 0 0 10px white, 3px 3px 0px black;
 }
+
+#drum-machine #pad-container .activated {
+  background-color: #30839c;
+  color: white;
+  text-shadow: 0 0 10px white, 3px 3px 0px black;
+}
